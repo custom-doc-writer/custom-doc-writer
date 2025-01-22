@@ -1,0 +1,67 @@
+﻿@page "/foreigner-arrival-notification"
+@inject HttpClient Http
+@inject ExcelDocumentWriter DW
+@inject IJSRuntime JS
+
+<PageTitle>@Title</PageTitle>
+<h2>@Title</h2>
+
+<form>
+    <div class="form-group">
+        <label for="fileName">Название файла</label>
+        <input id="fileName" type="text" class="form-control" disabled="@SaveInProgress" value="уведомление" />
+    </div>
+    <br />
+    <ExcelDocumentTextField FieldId="last-name" FieldName="last-name" FieldLabel="Фамилия" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        StartingCell="N12" Autocomplete="last-name" MaxLength="27" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="first-name" FieldName="first-name" FieldLabel="Имя" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        StartingCell="N14" Autocomplete="first-name" MaxLength="27" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="middle-name" FieldName="middle-name" FieldLabel="Отчество" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        StartingCell="Z16" Autocomplete="middle-name" MaxLength="24" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="citizenship" FieldName="citizenship" FieldLabel="Гражданство" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        StartingCell="V18" Autocomplete="citizenship" MaxLength="25" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentDateField FieldId="birthdate" FieldName="birthdate" FieldLabel="Дата рождения" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        DayCell="AD21" MonthCell="AT21" YearCell="BF21" ColIncrement="4" />
+    <br />
+    <ExcelDocumentCheckField FieldId="gender-male" FieldName="gender" FieldLabel="Мужчина" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="CL21" Symbol="V" IsRadio="true" IsChecked="true" />
+    <ExcelDocumentCheckField FieldId="gender-female" FieldName="gender" FieldLabel="Женщина" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="DB21" Symbol="V" IsRadio="true" IsChecked="false" />
+    <br />
+    <ExcelDocumentTextField FieldId="birthplace" FieldName="birthplace" FieldLabel="Место рождения" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        StartingCell="Z23" Autocomplete="birthplace" MaxLength="72" LineBreak="24" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <button type="submit" class="btn btn-primary" disabled="@SaveInProgress" @onclick="SaveFile" @onclick:preventDefault="true">
+        СОХРАНИТЬ ФАЙЛ
+        @if (SaveInProgress)
+        {
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        }
+    </button>
+    <br />
+</form>
+
+@code {
+    private const string Title = "УВЕДОМЛЕНИЕ О ПРИБЫТИИ ИНОСТРАННОГО ГРАЖДАНИНА ИЛИ ЛИЦА БЕЗ ГРАЖДАНСТВА В МЕСТО ПРЕБЫВАНИЯ";
+
+    private bool SaveInProgress = false;
+
+    private async Task SaveFile()
+    {
+        if (SaveInProgress)
+            return;
+
+        SaveInProgress = true;
+
+        using var response = await Http.GetAsync("./docs/foreigner-arrival-notification.xlsx");
+        using var source = await response.Content.ReadAsStreamAsync();
+        using var result = await DW.WriteDocumentAsync(source);
+        var fileContent = result.ToArray();
+        var fileName = await JS.InvokeAsync<string>("getInputValueById", "fileName");
+        await JS.InvokeVoidAsync("downloadFileFromByteArray", $"{fileName}.xlsx", fileContent);
+
+        SaveInProgress = false;
+    }
+}

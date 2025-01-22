@@ -1,0 +1,6 @@
+﻿@page "/"
+@inject NavigationManager Navigation
+
+<PageTitle>ДОКУМЕНТЫ</PageTitle>
+
+<button class="btn btn-primary" @onclick="@(() => Navigation.NavigateTo("foreigner-arrival-notification"))">ПРИБЫТИЕ</button>

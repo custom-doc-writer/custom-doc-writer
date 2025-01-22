@@ -1,0 +1,54 @@
+@inherits ExcelDocumentFieldBase
+
+@inject IJSRuntime JS;
+
+<div class="form-group">
+    <label for="@FieldId">@FieldLabel</label>
+    <input id="@FieldId" type="text" class="form-control" name="@FieldName" disabled="@FieldDisabled" autocomplete="@Autocomplete" maxlength="@MaxLength" />
+</div>
+
+@code {
+    [Parameter]
+    public required string StartingCell { get; set; }
+
+    [Parameter]
+    public string? Autocomplete { get; set; }
+
+    [Parameter]
+    public required int MaxLength { get; set; }
+
+    [Parameter]
+    public int? LineBreak { get; set; }
+
+    [Parameter]
+    public required bool UpperCase { get; set; }
+
+    [Parameter]
+    public int ColIncrement { get; set; } = 1;
+
+    [Parameter]
+    public int RowIncrement { get; set; } = 1;
+
+    protected override async Task WriteAsync(ExcelWorksheet sheet)
+    {
+        var (startingX, startingY) = ParseCell(StartingCell);
+        var value = await JS.InvokeAsync<string>("getInputValueById", FieldId);
+        if (UpperCase)
+        {
+            value = value.ToUpper();
+        }
+
+        var length = Math.Min(value.Length, MaxLength);
+        var lineBreak = Math.Min(LineBreak ?? 0, MaxLength);
+        for (var i = 0; i < length; i++)
+        {
+            var rowIndex = lineBreak > 0 ? i / lineBreak : 0;
+            var colIndex = i - (lineBreak * rowIndex);
+
+            var col = GetExcelColumnLabel(colIndex * ColIncrement + startingX);
+            var row = rowIndex * RowIncrement + startingY;
+            var cell = $"{col}{row}";
+            sheet.Cells[cell].Value = value[i];
+        }
+    }
+}

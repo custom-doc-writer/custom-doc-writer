@@ -7,8 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EPPlus" Version="7.5.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.1" PrivateAssets="all" />
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <IndexHtml>index.development.html</IndexHtml>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' != 'Debug'">
+    <IndexHtml>index.production.html</IndexHtml>
+  </PropertyGroup>
+
+  <Target Name="CopyIndexHtml" BeforeTargets="Build">
+    <Copy SourceFiles="wwwroot\$(IndexHtml)" DestinationFiles="wwwroot\index.html" />
+  </Target>
 
 </Project>

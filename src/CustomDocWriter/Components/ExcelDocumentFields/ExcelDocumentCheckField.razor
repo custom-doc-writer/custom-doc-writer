@@ -1,0 +1,32 @@
+@inherits ExcelDocumentFieldBase
+
+@inject IJSRuntime JS;
+
+<div class="form-check">
+    <input id="@FieldId" name="@FieldName" class="form-check-input" type="@(IsRadio ? "radio" : "checkbox")" disabled="@FieldDisabled" checked="@IsChecked">
+    <label class="form-check-label" for="@FieldId">
+        @FieldLabel
+    </label>
+</div>
+
+@code {
+    [Parameter]
+    public required string Cell { get; set; }
+
+    [Parameter]
+    public required string Symbol { get; set; }
+
+    [Parameter]
+    public required bool IsRadio { get; set; }
+
+    [Parameter]
+    public required bool IsChecked { get; set; }
+
+    protected override async Task WriteAsync(ExcelWorksheet sheet)
+    {
+        var value = (await JS.InvokeAsync<bool>("getCheckedValueById", FieldId)) ? Symbol : string.Empty;
+        var (x, y) = ParseCell(Cell);
+        var cell = $"{GetExcelColumnLabel(x)}{y}";
+        sheet.Cells[cell].Value = value;
+    }
+}

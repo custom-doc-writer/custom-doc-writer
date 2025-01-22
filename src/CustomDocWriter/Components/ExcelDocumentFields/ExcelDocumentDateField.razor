@@ -1,0 +1,48 @@
+@inherits ExcelDocumentFieldBase
+
+@inject IJSRuntime JS;
+
+<div class="form-group">
+    <label for="@FieldId">@FieldLabel</label>
+    <input id="@FieldId" name="@FieldName" class="form-control" type="text" disabled="@FieldDisabled" />
+</div>
+
+@code {
+    [Parameter]
+    public required string DayCell { get; set; }
+
+    [Parameter]
+    public required string MonthCell { get; set; }
+
+    [Parameter]
+    public required string YearCell { get; set; }
+
+    [Parameter]
+    public required int ColIncrement { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeVoidAsync("initializeDatePicker", FieldId);
+    }
+
+    protected override async Task WriteAsync(ExcelWorksheet sheet)
+    {
+        var values = await JS.InvokeAsync<string>("getInputValueById", FieldId);
+        var matches = Regex.Match(values, @"([0-9][0-9])\.([0-9][0-9])\.([0-9][0-9][0-9][0-9])");
+        if (!matches.Success)
+            return;
+
+        (string, string)[] cells = [(matches.Groups[1].Value, DayCell), (matches.Groups[2].Value, MonthCell), (matches.Groups[3].Value, YearCell)];
+        foreach (var (value, cellName) in cells)
+        {
+            var (startingX, startingY) = ParseCell(cellName);
+            var length = value.Length;
+            for (var i = 0; i < length; i++)
+            {
+                var col = GetExcelColumnLabel(i * ColIncrement + startingX);
+                var cell = $"{col}{startingY}";
+                sheet.Cells[cell].Value = value[i];
+            }
+        }
+    }
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ДОКУМЕНТЫ</title>
+    <base href="/custom-doc-writer/" />
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="lib/tempus-dominus/dist/css/tempus-dominus.min.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="CustomDocWriter.styles.css" rel="stylesheet" />
+    <script src="lib/popper.min.js"></script>
+    <script src="lib/tempus-dominus/dist/js/tempus-dominus.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    
+    <script src="_framework/blazor.webassembly.js"></script>
+
+    <script>
+        window.initializeDatePicker = (id) => {
+            const element = document.getElementById(id);
+            if (!element)
+                return;
+
+            const picker = new tempusDominus.TempusDominus(element, {
+                display: {
+                    viewMode: "calendar",
+                    theme: "light",
+                    components: {
+                        calendar: true,
+                        date: true,
+                        month: true,
+                        year: true,
+                        decades: true,
+                        clock: false,
+                        hours: false,
+                        minutes: false,
+                        seconds: false,
+                    },
+                },
+                localization: {
+                    locale: "ru",
+                    dateFormats: {
+                        L: 'dd.MM.yyyy',
+                    },
+                    format: 'L'
+                },
+            });
+        }
+
+        window.downloadFileFromByteArray = (fileName, byteArray) => {
+            const blob = new Blob([byteArray], { type: 'application/octet-stream' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+        };
+
+        window.getInputValueById = (id) => {
+            var element = document.getElementById(id);
+            if (element) {
+                return element.value;
+            }
+            return null;
+        }
+
+        window.getCheckedValueById = (id) => {
+            var element = document.getElementById(id);
+            if (element) {
+                return element.checked;
+            }
+            return false;
+        }
+    </script>
+</body>
+
+</html>
