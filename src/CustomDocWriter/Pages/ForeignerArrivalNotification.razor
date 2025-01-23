@@ -9,9 +9,10 @@
 <form>
     <div class="form-group">
         <label for="fileName">Название файла</label>
-        <input id="fileName" type="text" class="form-control" disabled="@SaveInProgress" value="уведомление" />
+        <input id="fileName" type="text" class="form-control" disabled="@SaveInProgress" value="прибытие" />
     </div>
     <br />
+    <h3>1. СВЕДЕНИЯ О ЛИЦЕ, ПОДЛЕЖАЩЕМ ПОСТАНОВКЕ НА УЧЕТ ПО МЕСТУ ПРЕБЫВАНИЯ</h3>
     <ExcelDocumentTextField FieldId="last-name" FieldName="last-name" FieldLabel="Фамилия" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
         StartingCell="N12" Autocomplete="last-name" MaxLength="27" UpperCase="true" ColIncrement="4" RowIncrement="2" />
     <ExcelDocumentTextField FieldId="first-name" FieldName="first-name" FieldLabel="Имя" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
@@ -33,14 +34,307 @@
     <ExcelDocumentTextField FieldId="birthplace" FieldName="birthplace" FieldLabel="Место рождения" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
         StartingCell="Z23" Autocomplete="birthplace" MaxLength="72" LineBreak="24" UpperCase="true" ColIncrement="4" RowIncrement="2" />
     <br />
-    <button type="submit" class="btn btn-primary" disabled="@SaveInProgress" @onclick="SaveFile" @onclick:preventDefault="true">
+    <h4>Документ, удостоверяющий личность</h4>
+    <ExcelDocumentTextField FieldId="document-type" FieldName="document-type" FieldLabel="Вид" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        StartingCell="J29" Autocomplete="document-type" MaxLength="10" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="document-serial" FieldName="document-serial" FieldLabel="Серия" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        StartingCell="BF29" Autocomplete="document-serial" MaxLength="4" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="document-number" FieldName="document-number" FieldLabel="Номер" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        StartingCell="BZ29" Autocomplete="document-number" MaxLength="11" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentDateField FieldId="document-issued-at" FieldName="document-issued-at" FieldLabel="Дата выдачи" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        DayCell="I31" MonthCell="Z31" YearCell="AL31" ColIncrement="4" />
+    <ExcelDocumentDateField FieldId="document-issued-until" FieldName="document-issued-until" FieldLabel="Срок действия до" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        DayCell="BN31" MonthCell="CD31" YearCell="CP31" ColIncrement="4" />
+    <br />
+    <h4>Вид и реквизиты документа, подтверждающего право на пребывание (проживание) в Российской Федерации</h4>
+    <ExcelDocumentCheckField FieldId="acceptance-document-kind-none" FieldName="acceptance-document-kind" FieldLabel="Отсутствует" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="H36" Symbol="" IsRadio="true" IsChecked="true" />
+    <ExcelDocumentCheckField FieldId="acceptance-document-kind-visa" FieldName="acceptance-document-kind" FieldLabel="Виза" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="H36" Symbol="V" IsRadio="true" IsChecked="false" />
+    <ExcelDocumentCheckField FieldId="acceptance-document-kind-vnj" FieldName="acceptance-document-kind" FieldLabel="Вид на жительство" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="AJ36" Symbol="V" IsRadio="true" IsChecked="false" />
+    <ExcelDocumentCheckField FieldId="acceptance-document-kind-rvp" FieldName="acceptance-document-kind" FieldLabel="Разрешение на временное проживание" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="BT36" Symbol="V" IsRadio="true" IsChecked="false" />
+    <ExcelDocumentCheckField FieldId="acceptance-document-kind-rvpu" FieldName="acceptance-document-kind" FieldLabel="Разрешение на временное проживание в целях получения образования" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="DD36" Symbol="V" IsRadio="true" IsChecked="false" />
+    <ExcelDocumentTextField FieldId="acceptance-document-serial" FieldName="acceptance-document-serial" FieldLabel="Серия" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        StartingCell="BF29" Autocomplete="acceptance-document-serial" MaxLength="4" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="acceptance-document-number" FieldName="acceptance-document-number" FieldLabel="Номер" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        StartingCell="BZ29" Autocomplete="acceptance-document-number" MaxLength="15" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <h4>Цель въезда</h4>
+    <ExcelDocumentDateField FieldId="acceptance-document-issued-at" FieldName="acceptance-document-issued-at" FieldLabel="Дата выдачи" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        DayCell="I42" MonthCell="Z42" YearCell="AL42" ColIncrement="4" />
+    <ExcelDocumentDateField FieldId="acceptance-document-issued-until" FieldName="acceptance-document-issued-until" FieldLabel="Срок действия до" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        DayCell="BN42" MonthCell="CD42" YearCell="CP42" ColIncrement="4" />
+    <br />
+    <ExcelDocumentCheckField FieldId="acceptance-reason-kind-none" FieldName="acceptance-reason-kind" FieldLabel="Отсутствует" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="AD44" Symbol="" IsRadio="true" IsChecked="true" />
+    <ExcelDocumentCheckField FieldId="acceptance-reason-kind-service" FieldName="acceptance-reason-kind" FieldLabel="Служебная" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="AD44" Symbol="V" IsRadio="true" IsChecked="false" />
+    <ExcelDocumentCheckField FieldId="acceptance-reason-kind-tourism" FieldName="acceptance-reason-kind" FieldLabel="Туризм" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="AQ44" Symbol="V" IsRadio="true" IsChecked="false" />
+    <ExcelDocumentCheckField FieldId="acceptance-reason-kind-business" FieldName="acceptance-reason-kind" FieldLabel="Деловая" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="BD44" Symbol="V" IsRadio="true" IsChecked="false" />
+    <ExcelDocumentCheckField FieldId="acceptance-reason-kind-education" FieldName="acceptance-reason-kind" FieldLabel="Учеба" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="BO44" Symbol="V" IsRadio="true" IsChecked="false" />
+    <ExcelDocumentCheckField FieldId="acceptance-reason-kind-work" FieldName="acceptance-reason-kind" FieldLabel="Работа" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="CA44" Symbol="V" IsRadio="true" IsChecked="false" />
+    <ExcelDocumentCheckField FieldId="acceptance-reason-kind-private" FieldName="acceptance-reason-kind" FieldLabel="Частная" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="CN44" Symbol="V" IsRadio="true" IsChecked="false" />
+    <ExcelDocumentCheckField FieldId="acceptance-reason-kind-transit" FieldName="acceptance-reason-kind" FieldLabel="Транзит" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="DB44" Symbol="V" IsRadio="true" IsChecked="false" />
+    <ExcelDocumentCheckField FieldId="acceptance-reason-kind-humanitarian" FieldName="acceptance-reason-kind" FieldLabel="Гуманитарная" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="AD46" Symbol="V" IsRadio="true" IsChecked="false" />
+    <ExcelDocumentCheckField FieldId="acceptance-reason-kind-other" FieldName="acceptance-reason-kind" FieldLabel="Иная" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        Cell="AP46" Symbol="V" IsRadio="true" IsChecked="false" />
+    <br />
+    <ExcelDocumentTextField FieldId="phone" FieldName="phone-none" FieldLabel="Телефон (БЕЗ +7 ИЛИ 8)" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        StartingCell="CD46" Autocomplete="none" MaxLength="10" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="job" FieldName="job" FieldLabel="Профессия" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        StartingCell="R48" Autocomplete="job" MaxLength="26" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentDateField FieldId="acceptance-date" FieldName="acceptance-date" FieldLabel="Дата въезда" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        DayCell="I50" MonthCell="Z50" YearCell="AL50" ColIncrement="4" />
+    <ExcelDocumentDateField FieldId="acceptance-date" FieldName="acceptance-date-until" FieldLabel="Срок пребывания до" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        DayCell="BN50" MonthCell="CD50" YearCell="CP50" ColIncrement="4" />
+    <br />
+    <h4>Миграционная карта</h4>
+    <ExcelDocumentTextField FieldId="migration-document-serial" FieldName="migration-document-serial" FieldLabel="Серия" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        StartingCell="AP52" Autocomplete="migration-document-serial" MaxLength="4" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="migration-document-number" FieldName="migration-document-number" FieldLabel="Номер" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        StartingCell="BJ52" Autocomplete="migration-document-number" MaxLength="11" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="representatives" FieldName="representatives" FieldLabel="Сведения о законных представителях (родителях, усыновителях, попечителях)" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="0"
+        StartingCell="V54" Autocomplete="representatives" MaxLength="75" LineBreak="25" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <h4>Адрес прежнего места пребывания в Российской Федерации</h4>
+    <ExcelDocumentTextField FieldId="prev-address-1" FieldName="prev-address-1" FieldLabel="" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="Z3" Autocomplete="prev-address-1" MaxLength="24" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="prev-address-2" FieldName="prev-address-2" FieldLabel="" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="Z5" Autocomplete="prev-address-2" MaxLength="24" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="prev-address-3" FieldName="prev-address-3" FieldLabel="" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="Z7" Autocomplete="prev-address-3" MaxLength="24" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="prev-address-4" FieldName="prev-address-4" FieldLabel="" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="B9" Autocomplete="prev-address-4" MaxLength="30" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <h3>2. СВЕДЕНИЯ О МЕСТЕ ПРЕБЫВАНИЯ</h3>
+    <ExcelDocumentTextField FieldId="income-place" FieldName="income-place" FieldLabel="Область, край, республика, автономный округ" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="V14" Autocomplete="income-place" MaxLength="50" LineBreak="25" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="income-district" FieldName="income-district" FieldLabel="Район" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="V18" Autocomplete="income-district" MaxLength="25" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="income-city" FieldName="income-city" FieldLabel="Город или другой населенный пункт" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="Z20" Autocomplete="income-city" MaxLength="24" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="income-street" FieldName="income-street" FieldLabel="Улица" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="V22" Autocomplete="income-street" MaxLength="25" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="income-address-type" FieldName="income-address-type" FieldLabel="Тип" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="B24" Autocomplete="income-address-type" MaxLength="14" UpperCase="true" ColIncrement="0" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="income-address-number" FieldName="income-address-number" FieldLabel="Номер" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="AD24" Autocomplete="income-address-number" MaxLength="8" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="income-address-corps" FieldName="income-address-corps" FieldLabel="Корпус" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="BR24" Autocomplete="income-address-corps" MaxLength="5" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="income-address-building" FieldName="income-address-building" FieldLabel="Строение" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="CX24" Autocomplete="income-address-building" MaxLength="4" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="income-address-placement-type" FieldName="income-address-placement-type" FieldLabel="Тип помещения" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="B26" Autocomplete="income-address-placement-type" MaxLength="14" UpperCase="true" ColIncrement="0" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="income-address-placement" FieldName="income-address-placement" FieldLabel="Помещение" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="AJ24" Autocomplete="income-address-placement" MaxLength="4" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <h4>Место прибывания</h4>
+    <ExcelDocumentCheckField FieldId="income-place-kind-none" FieldName="income-place-kind" FieldLabel="Отсутствует" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        Cell="Y28" Symbol="" IsRadio="true" IsChecked="true" />
+    <ExcelDocumentCheckField FieldId="income-place-kind-living" FieldName="income-place-kind" FieldLabel="Жилое помещение" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        Cell="Y28" Symbol="V" IsRadio="true" IsChecked="false" />
+    <ExcelDocumentCheckField FieldId="income-place-kind-other" FieldName="income-place-kind" FieldLabel="Иное помещение" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        Cell="AZ28" Symbol="V" IsRadio="true" IsChecked="false" />
+    <ExcelDocumentCheckField FieldId="income-place-kind-organization" FieldName="income-place-kind" FieldLabel="Организация" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        Cell="AZ28" Symbol="V" IsRadio="true" IsChecked="false" />
+    <br />
+    <h4>Наименование и реквизиты документа, подтверждающего право пользования помещением (строением, сооружением)</h4>
+    <ExcelDocumentTextField FieldId="income-place-document-1" FieldName="income-place-document-1" FieldLabel="" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="AL31" Autocomplete="income-place-document-1" MaxLength="21" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="income-place-document-2" FieldName="income-place-document-2" FieldLabel="" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="AL33" Autocomplete="income-place-document-2" MaxLength="21" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="income-place-document-3" FieldName="income-place-document-3" FieldLabel="" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="AL35" Autocomplete="income-place-document-3" MaxLength="21" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <h4>Фактическое место нахождения</h4>
+    <ExcelDocumentTextField FieldId="real-place" FieldName="real-place" FieldLabel="Область, край, республика, автономный округ" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="Z41" Autocomplete="real-place" MaxLength="48" LineBreak="24" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="real-district" FieldName="real-district" FieldLabel="Район" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="V45" Autocomplete="real-district" MaxLength="25" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="real-city" FieldName="real-city" FieldLabel="Город, сельское поселение, иной населенный пункт" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="AH47" Autocomplete="real-city" MaxLength="22" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="real-place-number" FieldName="real-place-number" FieldLabel="Кадастровый номер земельного или лесного участка" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="1"
+        StartingCell="AH50" Autocomplete="real-place-number" MaxLength="44" LineBreak="22" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <h3>3. СВЕДЕНИЯ О ПРИНИМАЮЩЕЙ СТОРОНЕ</h3>
+    <ExcelDocumentCheckField FieldId="income-object-kind-none" FieldName="income-object-kind" FieldLabel="Отсутствует" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        Cell="CP3" Symbol="" IsRadio="true" IsChecked="true" />
+    <ExcelDocumentCheckField FieldId="income-object-kind-organization" FieldName="income-object-kind" FieldLabel="Организация" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        Cell="CP3" Symbol="V" IsRadio="true" IsChecked="false" />
+    <ExcelDocumentCheckField FieldId="income-object-kind-person" FieldName="income-object-kind" FieldLabel="Физическое лицо" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        Cell="DN3" Symbol="V" IsRadio="true" IsChecked="false" />
+    <br />
+    <ExcelDocumentTextField FieldId="income-object-last-name" FieldName="income-object-last-name" FieldLabel="Фамилия" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="N5" Autocomplete="income-object-last-name" MaxLength="27" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="income-object-first-name" FieldName="income-object-first-name" FieldLabel="Имя" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="N7" Autocomplete="income-object-first-name" MaxLength="27" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="income-object-middle-name" FieldName="income-object-middle-name" FieldLabel="Отчество" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="AH9" Autocomplete="income-object-middle-name" MaxLength="22" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <h4>Документ, удостоверяющий личность</h4>
+    <ExcelDocumentTextField FieldId="income-object-document-type" FieldName="income-object-document-type" FieldLabel="Вид" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="F11" Autocomplete="income-object-document-type" MaxLength="10" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="income-object-document-serial" FieldName="income-object-document-serial" FieldLabel="Серия" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="BF11" Autocomplete="income-object-document-serial" MaxLength="4" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="income-object-document-number" FieldName="income-object-document-number" FieldLabel="Номер" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="BZ11" Autocomplete="income-object-document-number" MaxLength="11" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentDateField FieldId="income-object-document-issued-at" FieldName="income-object-document-issued-at" FieldLabel="Дата выдачи" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        DayCell="I13" MonthCell="Z13" YearCell="AL13" ColIncrement="4" />
+    <ExcelDocumentDateField FieldId="income-object-document-issued-until" FieldName="income-object-document-issued-until" FieldLabel="Срок действия до" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        DayCell="BN13" MonthCell="CD13" YearCell="CP13" ColIncrement="4" />
+    <br />
+    <h4>Место жительства</h4>
+    <ExcelDocumentTextField FieldId="income-object-place" FieldName="income-object-place" FieldLabel="Область, край, республика, автономный округ" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="Z17" Autocomplete="income-object-place" MaxLength="48" LineBreak="24" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="income-object-district" FieldName="income-object-district" FieldLabel="Район" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="V21" Autocomplete="income-object-district" MaxLength="25" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="income-object-city" FieldName="income-object-city" FieldLabel="Город или другой населенный пункт" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="AD23" Autocomplete="income-object-city" MaxLength="23" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="income-object-street" FieldName="income-object-street" FieldLabel="Улица" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="V25" Autocomplete="incoincome-objectme-street" MaxLength="25" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="income-object-address-house" FieldName="income-object-address-house" FieldLabel="Дом" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="J27" Autocomplete="income-object-address-house" MaxLength="4" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="income-object-address-corps" FieldName="income-object-address-corps" FieldLabel="Корпус" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="AH27" Autocomplete="income-object-address-corps" MaxLength="5" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="income-object-address-building" FieldName="income-object-address-building" FieldLabel="Строение" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="BN27" Autocomplete="income-object-address-building" MaxLength="4" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="income-object-address-appartment" FieldName="income-object-address-appartment" FieldLabel="Квартира" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="CP27" Autocomplete="income-object-address-appartment" MaxLength="4" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <h4>Настоящим подтверждается, что</h4>
+    <ExcelDocumentTextField FieldId="approved-person-last-name" FieldName="approved-person-last-name" FieldLabel="Фамилия" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="N31" Autocomplete="approved-person-last-name" MaxLength="27" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="approved-person-first-name" FieldName="approved-person-first-name" FieldLabel="Имя" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="N33" Autocomplete="approved-person-first-name" MaxLength="27" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="approved-person-middle-name" FieldName="approved-person-middle-name" FieldLabel="Отчество" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="AH35" Autocomplete="approved-person-middle-name" MaxLength="22" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="approved-person-citizenship" FieldName="approved-person-citizenship" FieldLabel="Гражданство" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="R37" Autocomplete="approved-person-citizenship" MaxLength="26" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentDateField FieldId="approved-person-birthdate" FieldName="approved-person-birthdate" FieldLabel="Дата рождения" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        DayCell="AA39" MonthCell="AQ39" YearCell="DC39" ColIncrement="4" />
+    <br />
+    <ExcelDocumentCheckField FieldId="approved-person-gender-male" FieldName="approved-person-gender" FieldLabel="Мужчина" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        Cell="CL39" Symbol="V" IsRadio="true" IsChecked="true" />
+    <ExcelDocumentCheckField FieldId="approved-person-gender-female" FieldName="approved-person-gender" FieldLabel="Женщина" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        Cell="DB49" Symbol="V" IsRadio="true" IsChecked="false" />
+    <br />
+    <ExcelDocumentTextField FieldId="approved-person-birthplace" FieldName="approved-person-birthplace" FieldLabel="Место рождения" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="Z41" Autocomplete="approved-person-birthplace" MaxLength="72" LineBreak="24" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <h4>Документ, удостоверяющий личность</h4>
+    <ExcelDocumentTextField FieldId="approved-person-document-type" FieldName="approved-person-document-type" FieldLabel="Вид" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="F47" Autocomplete="approved-person-document-type" MaxLength="11" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="approved-person-document-serial" FieldName="approved-person-document-serial" FieldLabel="Серия" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="BF47" Autocomplete="approved-person-document-serial" MaxLength="4" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="approved-person-document-number" FieldName="approved-person-document-number" FieldLabel="Номер" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="BZ47" Autocomplete="approved-person-document-number" MaxLength="11" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentDateField FieldId="approved-person-document-issued-at" FieldName="approved-person-document-issued-at" FieldLabel="Дата выдачи" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        DayCell="I49" MonthCell="Z49" YearCell="AL49" ColIncrement="4" />
+    <ExcelDocumentDateField FieldId="approved-person-document-issued-until" FieldName="approved-person-document-issued-until" FieldLabel="Срок действия до" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        DayCell="BN49" MonthCell="CD49" YearCell="CP49" ColIncrement="4" />
+    <br />
+    <h4>В установленном порядке уведомил о прибытии в место пребывания по адресу</h4>
+    <ExcelDocumentTextField FieldId="approved-person-place" FieldName="approved-person-place" FieldLabel="Область, край, республика, автономный округ" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="Z53" Autocomplete="approved-person-place" MaxLength="48" LineBreak="24" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="approved-person-district" FieldName="approved-person-district" FieldLabel="Район" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="V57" Autocomplete="approved-person-district" MaxLength="25" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="approved-person-city" FieldName="approved-person-city" FieldLabel="Город или другой населенный пункт" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="Z59" Autocomplete="approved-person-city" MaxLength="24" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="approved-person-street" FieldName="approved-person-street" FieldLabel="Улица" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="V61" Autocomplete="approved-person-street" MaxLength="25" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="approved-person-address-type" FieldName="approved-person-address-type" FieldLabel="Тип" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="B63" Autocomplete="approved-person-address-type" MaxLength="14" UpperCase="true" ColIncrement="0" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="approved-person-address-number" FieldName="approved-person-address-number" FieldLabel="Номер" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="AD63" Autocomplete="approved-person-address-number" MaxLength="8" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="approved-person-address-corps" FieldName="approved-person-address-corps" FieldLabel="Корпус" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="BR63" Autocomplete="approved-person-address-corps" MaxLength="5" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="approved-person-address-building" FieldName="approved-person-address-building" FieldLabel="Строение" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="CX63" Autocomplete="approved-person-address-building" MaxLength="4" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="approved-person-address-placement-type" FieldName="approved-person-address-placement-type" FieldLabel="Тип помещения" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="B65" Autocomplete="approved-person-address-placement-type" MaxLength="14" UpperCase="true" ColIncrement="0" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="approved-person-address-placement" FieldName="approved-person-address-placement" FieldLabel="Помещение" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        StartingCell="AJ65" Autocomplete="approved-person-address-placement" MaxLength="4" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentDateField FieldId="approved-person-arrival-until" FieldName="approved-person-arrival-until" FieldLabel="Заявленный срок пребывания до" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="2"
+        DayCell="I68" MonthCell="AA68" YearCell="AM68" ColIncrement="4" />
+    <br />
+    <ExcelDocumentTextField FieldId="approved-person-phone" FieldName="approved-person-phone-none" FieldLabel="Телефон (БЕЗ +7 ИЛИ 8)" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="3"
+        StartingCell="Z3" Autocomplete="none" MaxLength="10" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <h4>Наименование организации</h4>
+    <ExcelDocumentTextField FieldId="organization-type-1" FieldName="organization-type-1" FieldLabel="" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="3"
+        StartingCell="V5" Autocomplete="organization-type-1" MaxLength="25" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="organization-type-2" FieldName="organization-type-2" FieldLabel="" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="3"
+        StartingCell="B7" Autocomplete="organization-type-2" MaxLength="17" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="organization-inn" FieldName="organization-inn" FieldLabel="ИНН" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="3"
+        StartingCell="BZ7" Autocomplete="organization-inn" MaxLength="11" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <h4>Адрес организации</h4>
+    <ExcelDocumentTextField FieldId="organization-address-1" FieldName="organization-address-1" FieldLabel="" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="3"
+        StartingCell="Z9" Autocomplete="organization-address-1" MaxLength="24" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="organization-address-2" FieldName="organization-address-2" FieldLabel="" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="3"
+        StartingCell="B11" Autocomplete="organization-address-2" MaxLength="30" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="organization-address-3" FieldName="organization-address-3" FieldLabel="" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="3"
+        StartingCell="B13" Autocomplete="organization-address-3" MaxLength="30" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <h3>Для принимающей стороны либо иностранного гражданина или лица без гражданства в случае, предусмотренном частью 3.1 статьи 22 Федерального закона "О миграционном учете иностранных граждан и лиц без гражданства в Российской Федерации"</h3>
+    <ExcelDocumentTextField FieldId="acceptance-side-last-name" FieldName="acceptance-side-last-name" FieldLabel="Фамилия" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="3"
+        StartingCell="N27" Autocomplete="acceptance-side-last-name" MaxLength="27" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="acceptance-side-first-name" FieldName="acceptance-side-first-name" FieldLabel="Имя" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="3"
+        StartingCell="N29" Autocomplete="acceptance-side-first-name" MaxLength="27" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="acceptance-side-middle-name" FieldName="acceptance-side-middle-name" FieldLabel="Отчество" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="3"
+        StartingCell="Z31" Autocomplete="acceptance-side-middle-name" MaxLength="24" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <h4>Наименование организации</h4>
+    <ExcelDocumentTextField FieldId="acceptance-side-organization-type-1" FieldName="acceptance-side-organization-type-1" FieldLabel="" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="3"
+        StartingCell="V33" Autocomplete="acceptance-side-organization-type-1" MaxLength="25" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <ExcelDocumentTextField FieldId="acceptance-side-organization-type-2" FieldName="acceptance-side-organization-type-2" FieldLabel="" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="3"
+        StartingCell="B35" Autocomplete="acceptance-side-organization-type-2" MaxLength="17" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <ExcelDocumentTextField FieldId="acceptance-side-organization-inn" FieldName="acceptance-side-organization-inn" FieldLabel="ИНН" FieldDisabled="SaveInProgress" Writer="@DW" SheetIndex="3"
+        StartingCell="BZ35" Autocomplete="acceptance-side-organization-inn" MaxLength="11" UpperCase="true" ColIncrement="4" RowIncrement="2" />
+    <br />
+    <button type="submit" class="btn btn-primary mb-2" disabled="@SaveInProgress" @onclick="SaveFile" @onclick:preventDefault="true">
         СОХРАНИТЬ ФАЙЛ
         @if (SaveInProgress)
         {
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         }
     </button>
-    <br />
 </form>
 
 @code {

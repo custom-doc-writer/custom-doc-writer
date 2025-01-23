@@ -3,7 +3,10 @@
 @inject IJSRuntime JS;
 
 <div class="form-group">
-    <label for="@FieldId">@FieldLabel</label>
+    @if (FieldLabel != null && FieldLabel.Length > 0)
+    {
+        <label for="@FieldId">@FieldLabel</label>
+    }
     <input id="@FieldId" type="text" class="form-control" name="@FieldName" disabled="@FieldDisabled" autocomplete="@Autocomplete" maxlength="@MaxLength" />
 </div>
 
@@ -36,6 +39,14 @@
         if (UpperCase)
         {
             value = value.ToUpper();
+        }
+
+        if (ColIncrement == 0)
+        {
+            var col = GetExcelColumnLabel(startingX);
+            var cell = $"{col}{startingY}";
+            sheet.Cells[cell].Value = value;
+            return;
         }
 
         var length = Math.Min(value.Length, MaxLength);
